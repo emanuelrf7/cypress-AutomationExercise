@@ -9,7 +9,7 @@ describe('Case Test 1', () => {
     })
     
     it('Register User', () => {
-        cy.get('body').should('be.visible')
+        cy.get('body').should('be.visible').contains('Home')
         cy.get('.shop-menu > .nav > :nth-child(4) > a').click()
         cy.get('.signup-form').should('be.visible')
         cy.get('.shop-menu > .nav > :nth-child(4) > a').click()
@@ -86,7 +86,7 @@ describe('Case Test 5', () => {
     })
 
     it('Register User with existing email', () => {
-        cy.get('body').should('be.visible')
+        cy.get('body').should('be.visible').contains('Home')
         cy.get('.shop-menu > .nav > :nth-child(4) > a').click()
         cy.get('.signup-form').should('be.visible')
         cy.get('[data-qa="signup-name"]').type('Emanuel')
@@ -102,7 +102,7 @@ describe('Case Test 6', () => {
     })
 
     it('Contact Us Form', () => {
-        cy.get('body').should('be.visible')
+        cy.get('body').should('be.visible').contains('Home')
         cy.get('.shop-menu > .nav > :nth-child(8) > a').click()
         cy.get('div.contact-form > .title').should('be.visible').should('have.text', 'Get In Touch')
         cy.get('[data-qa="name"]').type('Emanuel')
@@ -113,7 +113,106 @@ describe('Case Test 6', () => {
         cy.get('[data-qa="submit-button"]').click()
         cy.get('.status').should('be.visible').should('have.text', 'Success! Your details have been submitted successfully.')
         cy.get('#form-section > .btn').click()
-        cy.get('body').should('be.visible')      
+        cy.get('body').should('be.visible').contains('Home')      
+    })
+})
+
+describe('Case Test 7', () => {
+    before(() => {
+        cy.visit('http://automationexercise.com')
+    })
+
+    it('Verify Test Cases Page', () => {
+        cy.get('body').should('be.visible').contains('Home')
+        cy.get('.active > :nth-child(1) > .test_cases_list > .btn').click()
+        cy.get('b').should('be.visible').should('have.text', 'Test Cases')        
+    })
+})
+
+describe('Case Test 8', () => {
+    before(() => {
+        cy.visit('http://automationexercise.com')
+    })
+
+    it('Verify All Products and product detail page', () => {
+        cy.get('body').should('be.visible').contains('Home')
+        cy.get('.shop-menu > .nav > :nth-child(2) > a').click()
+        cy.get('body').contains('All Products').should('be.visible')
+        cy.get('.features_items').should('be.visible').contains('Add to cart')
+        cy.get(':nth-child(3) > .product-image-wrapper > .choose > .nav > li > a').click()
+        cy.get('body').contains('Write Your Review').should('be.visible')
+        cy.get('.product-information > h2').should('be.visible')
+        cy.get('.product-information > :nth-child(3)').should('be.visible')
+        cy.get(':nth-child(5) > span').should('be.visible')
+        cy.get('.product-information > :nth-child(6)').should('be.visible')
+        cy.get('.product-information > :nth-child(7)').should('be.visible')
+        cy.get('.product-information > :nth-child(8)').should('be.visible')
+    })
+})
+
+describe('Case Test 9', () => {
+    before(() => {
+        cy.visit('http://automationexercise.com')
+    })
+
+    it('Search Product', () => {
+        cy.get('body').should('be.visible').contains('Home')
+        cy.get('.shop-menu > .nav > :nth-child(2) > a').click()
+        cy.get('body').contains('All Products').should('be.visible')
+        cy.get('#search_product').type('Top')
+        cy.get('#submit_search').click()
+        cy.get('body').contains('Searched Products').should('be.visible')
+        cy.get('.features_items').contains('Top').should('be.visible')       
+    })
+})
+
+describe('Case Test 10', () => {
+    before(() => {
+        cy.visit('http://automationexercise.com')
+    })
+
+    it('Verify Subscription in home page', () => {
+        cy.get('body').should('be.visible').contains('Home')
+        cy.scrollTo('bottom')
+        cy.get('footer').contains('Subscription').should('be.visible')
+        cy.get('#susbscribe_email').type('emanuel@email.com')
+        cy.get('#subscribe').click()
+        cy.get('footer').contains('You have been successfully subscribed!').should('be.visible')
+    })
+})
+
+describe('Case Test 11', () => {
+    before(() => {
+        cy.visit('http://automationexercise.com')
+    })
+
+    it('Verify Subscription in Cart page', () => {
+        cy.get('body').should('be.visible').contains('Home')
+        cy.get('.shop-menu > .nav > :nth-child(3) > a').click()
+        cy.scrollTo('bottom')
+        cy.get('footer').contains('Subscription').should('be.visible')
+        cy.get('#susbscribe_email').type('emanuel@email.com')
+        cy.get('#subscribe').click()
+        cy.get('footer').contains('You have been successfully subscribed!').should('be.visible')        
+    })
+})
+
+describe('Case Test 12', () => {
+    before(() => {
+        cy.visit('http://automationexercise.com')
+    })
+
+    it('Add Products in Cart', () => {
+        cy.get('body').should('be.visible').contains('Home')
+        cy.get('.shop-menu > .nav > :nth-child(2) > a').click()
+        cy.get(':nth-child(3) > .product-image-wrapper > .single-products > .productinfo > .btn').click()
+        cy.get('.modal-footer > .btn').click()
+        cy.get(':nth-child(4) > .product-image-wrapper > .single-products > .productinfo > .btn').click()
+        cy.get('u').click()
+        cy.get('.cart_product').should('be.visible')
+        cy.get('.cart_price').should('be.visible')
+        cy.get('.cart_quantity').should('be.visible')
+        cy.get('.cart_total').should('be.visible')    
     })
 })
 
@@ -137,7 +236,7 @@ function deleteUser() {
 }
 
 function verifyLoginVisible() {
-    cy.get('body').should('be.visible')
+    cy.get('body').should('be.visible').contains('Home')
     cy.get('.shop-menu > .nav > :nth-child(4) > a').click()
     cy.get('.login-form').should('be.visible')
 }
