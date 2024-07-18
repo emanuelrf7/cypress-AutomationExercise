@@ -216,6 +216,184 @@ describe('Case Test 12', () => {
     })
 })
 
+describe('Case Test 13', () => {
+    before(() => {
+        cy.visit('http://automationexercise.com')
+    })
+
+    it('Verify Product quantity in Cart', () => {
+        cy.get('body').should('be.visible').contains('Home')
+        cy.get('.shop-menu > .nav > :nth-child(2) > a').click()
+        cy.get('.choose').contains('View Product').click()
+        cy.get('.product-information').should('be.visible')
+        cy.get('#quantity').clear().type(4)
+        cy.get(':nth-child(5) > .btn').click()
+        cy.get('body').contains('View Cart').click()
+        cy.get('.cart_quantity').contains(4)        
+    })
+})
+
+describe('Case Test 14', () => {
+    before(() => {
+        cy.visit('http://automationexercise.com')
+    })
+
+    it('Place Order: Register while Checkout', () => {
+        cy.get('body').should('be.visible').contains('Home')
+        cy.get('.shop-menu > .nav > :nth-child(2) > a').click()
+        addProducts()
+        cy.get('.shop-menu > .nav > :nth-child(3) > a').click()
+        cy.get('.active').should('be.visible').contains('Shopping Cart')
+        cy.get('.col-sm-6 > .btn').click()
+        cy.get('.modal-body > :nth-child(2) > a > u').click()
+        cy.get('[data-qa="signup-name"]').type('Emanuel')
+        cy.get('[data-qa="signup-email"]').type('emanuel7@email.com')
+        cy.get('[data-qa="signup-button"]').click()
+        cy.get('[data-qa="password"]').type(12345678)
+        createAddress('Emanuel', 'Franco', 'The Marathon Clothing Store', '3420 W Slauson Ave F', '3420 W Slauson Ave F', 'United States', 'California', 'Los Angeles', 90008, 13238154959)
+        cy.get('[data-qa="create-account"]').click()
+        cy.get('[data-qa="account-created"]').contains('Account Created!')
+        cy.get('[data-qa="continue-button"]').click()
+        cy.get(':nth-child(10) > a').contains('Logged in as Emanuel')
+        cy.get('.shop-menu > .nav > :nth-child(3) > a').click()
+        cy.get('.col-sm-6 > .btn').click()
+        cy.get('#address_delivery').contains('Emanuel Franco')
+        cy.get('#address_delivery').contains('The Marathon Clothing Store')
+        cy.get('#address_delivery').contains('3420 W Slauson Ave F')
+        cy.get('#address_delivery > :nth-child(5)').contains('3420 W Slauson Ave F')
+        cy.get('#address_delivery').contains('Los Angeles California 90008')
+        cy.get('#address_delivery').contains('United States')
+        cy.get('#address_delivery').contains('13238154959')
+        cy.get('tbody tr').should('have.length', 6)
+        cy.get('.form-control').type('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.')
+        cy.get(':nth-child(7) > .btn').click()
+        cy.get('[data-qa="name-on-card"]').type('Emanuel Franco')
+        cy.get('[data-qa="card-number"]').type(2222333344445555)
+        cy.get('[data-qa="cvc"]').type(123)
+        cy.get('[data-qa="expiry-month"]').type('07')
+        cy.get('[data-qa="expiry-year"]').type('2030')
+        cy.get('[data-qa="pay-button"]').click()
+        cy.get('body').contains('Your order has been confirmed!').should('be.visible')
+        cy.get(':nth-child(5) > a').click()
+        cy.get('[data-qa="continue-button"]').click()
+    })
+})
+
+describe('Case Test 15', () => {
+    before(() => {
+        cy.visit('http://automationexercise.com')
+    })
+
+    it('Place Order: Register before Checkout', () => {
+        cy.get('body').should('be.visible').contains('Home')
+        cy.get('.shop-menu > .nav > :nth-child(4) > a').click()
+        cy.get('[data-qa="signup-name"]').type('Emanuel')
+        cy.get('[data-qa="signup-email"]').type('emanuel7@email.com')
+        cy.get('[data-qa="signup-button"]').click()
+        cy.get('[data-qa="password"]').type(12345678)
+        createAddress('Emanuel', 'Franco', 'The Marathon Clothing Store', '3420 W Slauson Ave F', '3420 W Slauson Ave F', 'United States', 'California', 'Los Angeles', 90008, 13238154959)
+        cy.get('[data-qa="create-account"]').click()
+        cy.get('[data-qa="account-created"]').contains('Account Created!')
+        cy.get('[data-qa="continue-button"]').click()
+        cy.get(':nth-child(10) > a').contains('Logged in as Emanuel')
+        cy.get('.shop-menu > .nav > :nth-child(2) > a').click()
+        addProducts()
+        cy.get('.shop-menu > .nav > :nth-child(3) > a').click()
+        cy.get('.active').should('be.visible').contains('Shopping Cart')
+        cy.get('.col-sm-6 > .btn').click()
+        cy.get('#address_delivery').contains('Emanuel Franco')
+        cy.get('#address_delivery').contains('The Marathon Clothing Store')
+        cy.get('#address_delivery').contains('3420 W Slauson Ave F')
+        cy.get('#address_delivery > :nth-child(5)').contains('3420 W Slauson Ave F')
+        cy.get('#address_delivery').contains('Los Angeles California 90008')
+        cy.get('#address_delivery').contains('United States')
+        cy.get('#address_delivery').contains('13238154959')
+        cy.get('tbody tr').should('have.length', 6)
+        cy.get('.form-control').type('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.')
+        cy.get(':nth-child(7) > .btn').click()
+        cy.get('[data-qa="name-on-card"]').type('Emanuel Franco')
+        cy.get('[data-qa="card-number"]').type(2222333344445555)
+        cy.get('[data-qa="cvc"]').type(123)
+        cy.get('[data-qa="expiry-month"]').type('07')
+        cy.get('[data-qa="expiry-year"]').type('2030')
+        cy.get('[data-qa="pay-button"]').click()
+        cy.get('body').contains('Your order has been confirmed!').should('be.visible')
+        cy.get(':nth-child(5) > a').click()
+        cy.get('[data-qa="continue-button"]').click()
+    })
+})
+
+describe('Case Test 16', () => {
+    before(() => {
+        cy.visit('http://automationexercise.com')
+    })
+
+    it('Place Order: Login before Checkout', () => {
+        cy.get('body').should('be.visible').contains('Home')
+        cy.get('.shop-menu > .nav > :nth-child(4) > a').click()
+        cy.get('[data-qa="login-email"]').type('emanuel@email.com')
+        cy.get('[data-qa="login-password"]').type(12345678)
+        cy.get('[data-qa="login-button"]').click()
+        cy.get(':nth-child(10) > a').should('be.visible').contains('Logged in as Emanuel')
+        cy.get('.shop-menu > .nav > :nth-child(2) > a').click()
+        addProducts()
+        cy.get('.shop-menu > .nav > :nth-child(3) > a').click()
+        cy.get('.active').should('be.visible').contains('Shopping Cart')
+        cy.get('.col-sm-6 > .btn').click()
+        cy.get('#address_delivery').contains('Emanuel Franco')
+        cy.get('#address_delivery').contains('The Marathon Clothing Store')
+        cy.get('#address_delivery').contains('3420 W Slauson Ave F')
+        cy.get('#address_delivery > :nth-child(5)').contains('3420 W Slauson Ave F')
+        cy.get('#address_delivery').contains('Los Angeles California 90008')
+        cy.get('#address_delivery').contains('United States')
+        cy.get('#address_delivery').contains('13238154959')
+        cy.get('tbody tr').should('have.length', 6)
+        cy.get('.form-control').type('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.')
+        cy.get(':nth-child(7) > .btn').click()
+        cy.get('[data-qa="name-on-card"]').type('Emanuel Franco')
+        cy.get('[data-qa="card-number"]').type(2222333344445555)
+        cy.get('[data-qa="cvc"]').type(123)
+        cy.get('[data-qa="expiry-month"]').type('07')
+        cy.get('[data-qa="expiry-year"]').type('2030')
+        cy.get('[data-qa="pay-button"]').click()
+        cy.get('body').contains('Your order has been confirmed!').should('be.visible')
+        cy.get(':nth-child(5) > a').click()
+        cy.get('[data-qa="continue-button"]').click()
+    })
+})
+
+describe('Case Test 17', () => {
+    before(() => {
+        cy.visit('http://automationexercise.com')
+    })
+
+    it('Remove Products From Cart', () => {
+        cy.get('body').should('be.visible').contains('Home')
+        cy.get('.shop-menu > .nav > :nth-child(2) > a').click()
+        addProducts()
+        cy.get('.shop-menu > .nav > :nth-child(3) > a').click()
+        cy.get('.active').should('be.visible').contains('Shopping Cart')
+        cy.get('#product-1 > .cart_delete > .cart_quantity_delete').click()
+        cy.get('#cart_info').should('not.have.text', 'Blue Top')        
+    })
+})
+
+describe('Case Test 18', () => {
+    before(() => {
+        cy.visit('http://automationexercise.com')
+    })
+
+    it('View Category Products', () => {
+        cy.get('.category-products').should('be.visible')
+        cy.get(':nth-child(1) > .panel-heading > .panel-title > a > .badge > .fa').click()
+        cy.get('#Women > .panel-body > ul > :nth-child(1) > a').click()
+        cy.get('.features_items').should('be.visible').contains('Women - Dress Products')
+        cy.get(':nth-child(2) > .panel-heading > .panel-title > a > .badge > .fa').click()
+        cy.get('#Men > .panel-body > ul > :nth-child(1) > a').click()
+        cy.get('.features_items').should('be.visible').contains('Men - Tshirts Products')
+    })
+})
+
 function createAddress(firstName, lastName, cpy, add1, add2, country, s, city, zipcode, mblNumber) {
     cy.get('[data-qa="first_name"]').type(firstName)
     cy.get('[data-qa="last_name"]').type(lastName)
@@ -230,13 +408,26 @@ function createAddress(firstName, lastName, cpy, add1, add2, country, s, city, z
 
 }
 
-function deleteUser() {
-    cy.get('.shop-menu > .nav > :nth-child(5) > a').click()
-    cy.get('b').should('be.visible')
-}
+// function deleteUser() {
+//     cy.get('.shop-menu > .nav > :nth-child(5) > a').click()
+//     cy.get('b').should('be.visible')
+// }
 
 function verifyLoginVisible() {
     cy.get('body').should('be.visible').contains('Home')
     cy.get('.shop-menu > .nav > :nth-child(4) > a').click()
     cy.get('.login-form').should('be.visible')
+}
+
+function addProducts() {
+    cy.get(':nth-child(3) > .product-image-wrapper > .single-products > .productinfo > .btn').click()
+    cy.get('.modal-footer > .btn').click()
+    cy.get(':nth-child(4) > .product-image-wrapper > .single-products > .productinfo > .btn').click()
+    cy.get('.modal-footer > .btn').click()
+    cy.get(':nth-child(5) > .product-image-wrapper > .single-products > .productinfo > .btn').click()
+    cy.get('.modal-footer > .btn').click()
+    cy.get(':nth-child(6) > .product-image-wrapper > .single-products > .productinfo > .btn').click()
+    cy.get('.modal-footer > .btn').click()
+    cy.get(':nth-child(7) > .product-image-wrapper > .single-products > .productinfo > .btn').click()
+    cy.get('.modal-footer > .btn').click()
 }
